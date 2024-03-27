@@ -260,10 +260,12 @@ bool llcan_init(FDCAN_GlobalTypeDef *FDCANx) {
   return ret;
 }
 
-void llcan_clear_send(FDCAN_GlobalTypeDef *FDCANx) {
+void llcan_clear_send(FDCAN_GlobalTypeDef *FDCANx, bool abort) {
   // from datasheet: "Transmit cancellation is not intended for Tx FIFO operation."
   // so we need to clear pending transmission manually by resetting FDCAN core
   FDCANx->IR |= 0x3FCFFFFFU; // clear all interrupts
-  bool ret = llcan_init(FDCANx);
-  UNUSED(ret);
+  if (abort) {
+    bool ret = llcan_init(FDCANx);
+    UNUSED(ret);
+  }
 }

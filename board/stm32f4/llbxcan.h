@@ -152,7 +152,9 @@ bool llcan_init(CAN_TypeDef *CANx) {
   return ret;
 }
 
-void llcan_clear_send(CAN_TypeDef *CANx) {
-  CANx->TSR |= CAN_TSR_ABRQ0; // Abort message transmission on error interrupt
+void llcan_clear_send(CAN_TypeDef *CANx, bool abort) {
+  if (abort) {
+    CANx->TSR |= CAN_TSR_ABRQ0; // Abort message transmission on error interrupt
+  }
   CANx->MSR |= CAN_MSR_ERRI; // Clear error interrupt
 }

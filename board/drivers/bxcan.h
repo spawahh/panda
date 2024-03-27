@@ -53,7 +53,7 @@ void update_can_health_pkt(uint8_t can_number, uint32_t ir_reg) {
       CANx->RF0R &= ~(CAN_RF0R_FOVR0);
     }
     can_health[can_number].can_core_reset_cnt += 1U;
-    llcan_clear_send(CANx);
+    llcan_clear_send(CANx, can_health[can_number].last_error != 3U);
   }
 }
 
